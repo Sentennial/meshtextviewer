@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type NodeinfoPayload {
+  hardware  Int
+  id        String
+  longname  String
+  role      Int
+  shortname String
+}
+
+type TextPayload {
+  text String
+}
+
+model nodeinfo {
+  id        String          @id @default(auto()) @map("_id") @db.ObjectId
+  texts     text[]
+  channel   Int
+  /// Multiple data types found: Int: 52.8%, BigInt: 47.2% out of 127 sampled entries
+  from      BigInt @unique
+  hop_start Int
+  hops_away Int
+  /// Multiple data types found: Int: 52%, BigInt: 48% out of 127 sampled entries
+  id_       Json            @map("id")
+  payload   NodeinfoPayload
+  rssi      Int?
+  sender    String
+  /// Multiple data types found: Float: 76%, Int: 24% out of 125 sampled entries
+  snr       Float?
+  timestamp Int
+  /// Multiple data types found: Int: 36.2%, BigInt: 63.8% out of 127 sampled entries
+  to        BigInt
+  type      String
+}
+
+model text {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  nodeinfo  nodeinfo @relation(fields: [from], references: [from])
+  channel   Int
+  /// Multiple data types found: Int: 70.8%, BigInt: 29.2% out of 209 sampled entries
+  from      BigInt
+  hop_start Int
+  hops_away Int
+  /// Multiple data types found: Int: 49.3%, BigInt: 50.7% out of 209 sampled entries
+  id_       Json        @map("id")
+  payload   TextPayload
+  rssi      Int?
+  sender    String
+  /// Multiple data types found: Float: 77.2%, Int: 22.8% out of 145 sampled entries
+  snr       Int?
+  timestamp Int
+  /// Multiple data types found: Int: 0.5%, BigInt: 99.5% out of 209 sampled entries
+  to        BigInt
+  type      String
+}
