@@ -11,6 +11,6 @@ A MQTT broker (such as Mosquitto) running configured with a user and password th
 ## Running
 Clone repo, rename `example.env` to `.env`. Edit the default options for your environment.
 Run with `docker compose up -d`
+Visit `http://localhost:8844' to view the UI.
 
 ## ToDo
-This is currently a work in progress, the webapp is not developed yet. Currently it is just grabbing the MQTT
