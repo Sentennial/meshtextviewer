@@ -23,7 +23,16 @@ function formatAMPM(date: Date) {
     return strTime;
 }
 
-export default function MessageTable({ messages }: { messages: Message[] }) {
+export default function MessageTable({ messages }: { messages: {
+    id: string;
+    fromID: string;
+    from: string;
+    fromL: string | null;
+    message: string;
+    datetime: Date;
+    snr: number;
+    rssi: number;
+}[] }) {
     return (
         <div className="mt-6 flow-root">
             <div className="inline-block min-w-full align-middle ">
@@ -34,7 +43,7 @@ export default function MessageTable({ messages }: { messages: Message[] }) {
                                 <div className="flex items-center justify-between border-b border-blue-300 pb-2 dark:text-white">
                                     <div>
                                         <div className="mb-1 flex items-center text-lg font-bold">
-                                            <p className="">{msg.fromL || '!' + Number(msg.id).toString(16)}</p>
+                                            <p className="">{msg.fromL || '!' + Number(msg.fromID).toString(16)}</p>
                                         </div>
                                         <p className="text-sm">{msg.from}</p>
                                     </div>
